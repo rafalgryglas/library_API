@@ -13,7 +13,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/v1/library/book")
-public class BookControler {
+public class BookController {
 
     @Autowired
     private DbBook service;
@@ -26,13 +26,13 @@ public class BookControler {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "getBook")
-    public BookDto getBook(@RequestParam Long id) throws NotFoundException {
-        return mapper.mapToBookDto(service.getBook(id).orElseThrow(NotFoundException::new));
+    public BookDto getBook(@RequestParam Long bookId) throws NotFoundException {
+        return mapper.mapToBookDto(service.getBook(bookId).orElseThrow(NotFoundException::new));
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "deleteBook")
-    public void deleteBook(@RequestParam Long id) {
-        service.deleteById(id);
+    public void deleteBook(@RequestParam Long bookId) {
+        service.deleteById(bookId);
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "updateBook")

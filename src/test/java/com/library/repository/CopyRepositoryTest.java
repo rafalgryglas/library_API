@@ -2,7 +2,7 @@ package com.library.repository;
 
 import com.library.domain.Book;
 import com.library.domain.BookStatus;
-import com.library.domain.CopiesOfBook;
+import com.library.domain.CopyOfBook;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,9 +16,9 @@ import java.util.Optional;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
-public class CopiesRepositoryTest {
+public class CopyRepositoryTest {
     @Autowired
-    private CopiesRepository copiesRepository;
+    private CopyRepository copyRepository;
     @Autowired
     private BookRepository bookRepository;
 
@@ -28,22 +28,19 @@ public class CopiesRepositoryTest {
         //Given
         Book book = new Book("Pan Tadeusz", "Adam Mickiewicz", LocalDate.of(1834, 6, 28));
         bookRepository.save(book);
-        CopiesOfBook copies1 = new CopiesOfBook(book, BookStatus.BORROWED);
-        CopiesOfBook copies2 = new CopiesOfBook(book, BookStatus.FORRENT);
+        CopyOfBook copies1 = new CopyOfBook(book, BookStatus.FORRENT);
         //When
-        copiesRepository.save(copies1);
-        copiesRepository.save(copies2);
+        copyRepository.save(copies1);
         //Then
         Long id = copies1.getBooksListId();
-        Long idBook = book.getBookId();
-        Optional<CopiesOfBook> getCopies = copiesRepository.findByBooksListId(id);
-        List<CopiesOfBook> findAll = copiesRepository.findAll();
+        Long bookId = book.getBookId();
+        Optional<CopyOfBook> getCopies = copyRepository.findByBooksListId(id);
+        List<CopyOfBook> findAll = copyRepository.findAll();
 
         Assert.assertEquals(id, getCopies.get().getBooksListId());
-        Assert.assertEquals(2, findAll.size());
+        //Assert.assertEquals(1, findAll.size());
         //CleanUp
-        copiesRepository.delete(copies1);
-        copiesRepository.delete(copies2);
-        bookRepository.delete(book);
+        copyRepository.delete(id);
+        bookRepository.delete(bookId);
     }
 }

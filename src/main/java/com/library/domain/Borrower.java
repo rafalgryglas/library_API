@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class Borrows {
+public class Borrower {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(unique = true)
@@ -27,19 +27,18 @@ public class Borrows {
     @ManyToOne
     @JoinColumn(name = "booksListId")
     @NotNull
-    private CopiesOfBook copiesOfBook;
+    private CopyOfBook copyOfBook;
 
     @Column(name = "Borrow_date")
-    @NotNull
-    private LocalDate rentalBook;
+    private LocalDate rentalBookDate;
 
     @Column(name = "Return_date")
-    private LocalDate returnBook;
+    private LocalDate returnBookDate;
 
-    public Borrows(Reader reader, CopiesOfBook copiesOfBook, LocalDate rentalBook, LocalDate returnBook) {
+    public Borrower(Reader reader, CopyOfBook copyOfBook, LocalDate rentalBookDate, LocalDate returnBookDate) {
         this.reader = reader;
-        this.copiesOfBook = copiesOfBook;
-        this.rentalBook = rentalBook;
-        this.returnBook = returnBook;
+        this.copyOfBook = copyOfBook;
+        this.rentalBookDate = rentalBookDate;
+        this.returnBookDate = returnBookDate;
     }
 }

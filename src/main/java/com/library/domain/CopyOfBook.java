@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class CopiesOfBook {
+public class CopyOfBook {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(unique = true)
@@ -32,7 +32,7 @@ public class CopiesOfBook {
         return this.bookStatus = bookStatus;
     }
 
-    public CopiesOfBook(Book book, BookStatus bookStatus) {
+    public CopyOfBook(Book book, BookStatus bookStatus) {
         this.book = book;
         this.bookStatus = bookStatus;
     }

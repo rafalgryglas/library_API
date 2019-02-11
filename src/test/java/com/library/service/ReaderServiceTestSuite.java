@@ -55,7 +55,7 @@ public class ReaderServiceTestSuite {
     @Test
     public void saveReaderTest() {
         //Given
-        Reader reader = new Reader(1L, "Rafal", "Gryglas", LocalDate.now());
+        Reader reader = new Reader(1L, "Rafal", "Gryglas", LocalDate.of(2019, 1, 21));
         when(repository.save(reader)).thenReturn(reader);
         //When
         Reader result = service.saveReader(reader);

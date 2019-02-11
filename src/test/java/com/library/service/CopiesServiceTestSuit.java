@@ -2,8 +2,8 @@ package com.library.service;
 
 import com.library.domain.Book;
 import com.library.domain.BookStatus;
-import com.library.domain.CopiesOfBook;
-import com.library.repository.CopiesRepository;
+import com.library.domain.CopyOfBook;
+import com.library.repository.CopyRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,21 +25,21 @@ import static org.mockito.Mockito.when;
 @SpringBootTest
 public class CopiesServiceTestSuit {
     @Autowired
-    private DbCopies service;
+    private DbCopy service;
 
     @MockBean
-    private CopiesRepository repository;
+    private CopyRepository repository;
 
     @Test
     public void getAllCopiesTest() {
         //Given
         Book book = new Book(1L, "Pan Tadeusz", "Adam Mickiewicz", LocalDate.of(1834, 6, 28));
-        List<CopiesOfBook> copies = new ArrayList<>();
-        copies.add(new CopiesOfBook(1L, book, BookStatus.DESTROYED));
-        copies.add(new CopiesOfBook(2L, book, BookStatus.FORRENT));
+        List<CopyOfBook> copies = new ArrayList<>();
+        copies.add(new CopyOfBook(1L, book, BookStatus.DESTROYED));
+        copies.add(new CopyOfBook(2L, book, BookStatus.FORRENT));
         when(repository.findAll()).thenReturn(copies);
         //When
-        List<CopiesOfBook> resultList = service.getAllCopies();
+        List<CopyOfBook> resultList = service.getAllCopies();
         //Then
         assertEquals(2, resultList.size());
     }
@@ -48,37 +48,22 @@ public class CopiesServiceTestSuit {
     public void getCopieTest() {
         //Given
         Book book = new Book(1L, "Pan Tadeusz", "Adam Mickiewicz", LocalDate.of(1834, 6, 28));
-        CopiesOfBook copies = new CopiesOfBook(1L, book, BookStatus.FORRENT);
+        CopyOfBook copies = new CopyOfBook(1L, book, BookStatus.FORRENT);
         when(repository.findByBooksListId(1L)).thenReturn(Optional.ofNullable(copies));
         //When
-        Optional<CopiesOfBook> result = service.getCopy(1L);
+        Optional<CopyOfBook> result = service.getCopy(1L);
         //Then
         assertEquals("Pan Tadeusz", result.get().getBook().getTitle());
-    }
-
-    @Test
-    public void getCopiesByStatusAndTitleIdTest() {
-        //Given
-        Book book = new Book(1L, "Pan Tadeusz", "Adam Mickiewicz", LocalDate.of(1834, 6, 28));
-        List<CopiesOfBook> copies = new ArrayList<>();
-        copies.add(new CopiesOfBook(3L, book, BookStatus.BORROWED));
-        copies.add(new CopiesOfBook(4L, book, BookStatus.BORROWED));
-        when(repository.findBy(BookStatus.BORROWED, 1L)).thenReturn(copies);
-        //When
-        List<CopiesOfBook> resultList = service.getCopiesByStatusAndTitleId(BookStatus.BORROWED, 1L);
-        System.out.println(resultList);
-        //Then
-        assertEquals(2, resultList.size());
     }
 
     @Test
     public void saveCopie() {
         //Given
         Book book = new Book(1L, "Pan Tadeusz", "Adam Mickiewicz", LocalDate.of(1834, 6, 28));
-        CopiesOfBook copies = new CopiesOfBook(1L, book, BookStatus.FORRENT);
+        CopyOfBook copies = new CopyOfBook(1L, book, BookStatus.FORRENT);
         when(repository.save(copies)).thenReturn(copies);
         //When
-        CopiesOfBook result = service.saveCopy(copies);
+        CopyOfBook result = service.saveCopy(copies);
         //Then
         assertEquals("Pan Tadeusz", result.getBook().getTitle());
     }
